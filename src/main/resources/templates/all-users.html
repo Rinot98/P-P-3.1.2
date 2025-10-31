@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('/images/background.png');
+            background-size: cover; /* Заполняет весь экран */
+            background-repeat: no-repeat; /* Изображение не повторяется */
+            background-position: center; /* Центрирует изображение */
+            min-height: 100vh; /* Задает высоту body в 100% высоты экрана */
+            margin: 0; /* Убирает отступы по умолчанию */
+            flex-direction: column; /* Горизонтальное центрирование */
+            box-sizing: border-box;
+        }
+
+        .header {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .name {
+            width: 300px; /* Ширина */
+            height: 50px; /* Высота */
+            background-color: rgba(255, 255, 255, 0.3); /* Полупрозрачный фон */
+            margin: 20px auto; /* Центрирование элемента по вертикали и горизонтали */
+            text-align: center; /* Центрирование текста */
+            line-height: 50px; /* Центрирование текста по вертикали */
+            border-radius: 5px; /* Закругленные углы */
+            font-size: 24px; /* Размер шрифта */
+
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            table-layout: fixed; /* Контроль ширины колонок */
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ccc;
+        }
+
+        th {
+            background-color: #f8f9fa;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        th:nth-child(4), td:nth-child(4), /* Email column */
+        th:nth-child(8), td:nth-child(8) { /* Password column */
+            width: 150px;
+            max-width: 150px;
+            word-break: break-all; /* Переносит длинные слова */
+            overflow: hidden;
+        }
+
+        .btn {
+            padding: 8px 12px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-update {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-logout {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-home {
+            background-color: #007bff;
+        }
+
+        .btn-add {
+            background-color: #28a745;
+            color: white;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .btn-profile {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-profile:hover {
+            background-color: #5a6268;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .role-badge {
+            display: inline-block;
+            margin: 2px 5px 2px 0;
+            padding: 3px 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    <h2 class="name">All Users</h2>
+    <br>
+    <div>
+        <a th:href="@{'/'}">
+            <button class="btn btn-home" type="button">Home</button>
+        </a>
+        <a th:href="@{'/user/profile'}">
+            <button class="btn btn-profile" type="button">Profile</button>
+        </a>
+        <a th:href="@{'/logout'}">
+            <button class="btn btn-logout" type="button">Logout</button>
+        </a>
+    </div>
+</div>
+
+<div class="container">
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Age</th>
+            <th>email</th>
+            <th>phone number</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Password</th>
+            <th>Operations</th>
+        </tr>
+        <tbody>
+        <tr th:each="myUser : ${users}">
+            <td>
+                <a th:href="@{/user/{id}(id=${myUser.id})}" th:text="${myUser.name}">Name</a>
+            </td>
+            <td th:text="${myUser.surname}">Surname</td>
+            <td th:text="${myUser.age}">Age</td>
+            <td th:text="${myUser.email}">Email</td>
+            <td th:text="${myUser.phoneNumber}">phone Number</td>
+            <td>
+                <span th:each="role : ${myUser.roles}" class="role-badge" th:text="${role.role}">Role</span>
+            </td>
+            <td th:text="${myUser.isEnabled()}">Status</td>
+            <td th:text="${myUser.password}">Password</td>
+            <td>
+
+                <a th:href="@{/admin/updateInfo(userId=${myUser.id})}">
+                    <button class="btn btn-update" type="button">Update</button>
+                </a>
+                <form th:action="@{/admin/deleteUser}" method="post" style="display: inline;">
+                    <input type="hidden" name="userId" th:value="${myUser.id}">
+                    <button class="btn btn-delete" type="submit"
+                            onclick="return confirm('Are you sure you want to delete this user?')">
+                        Delete
+                    </button>
+                </form>
+            </td>
+
+        </tr>
+        </tbody>
+
+
+    </table>
+    <br>
+    <input class="btn btn-add" type="button" value="Add" onclick="window.location.href = 'admin/addNewUser'"/>
+</div>
+</body>
+</html>

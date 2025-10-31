@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .form-container {
+            width: 50%;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"],
+        input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .checkbox-group {
+            margin: 10px 0;
+        }
+
+        .checkbox-group label {
+            display: inline-block;
+            margin-left: 5px;
+            font-weight: normal;
+        }
+
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        .button-cancel {
+            background-color: #f44336;
+            margin-left: 10px;
+        }
+
+        .button-cancel:hover {
+            background-color: #da190b;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+<h2 style="text-align: center">
+    <span th:if="${user.id == 0}">Add New User</span>
+    <span th:if="${user.id != 0}">Edit User</span>
+</h2>
+
+<div class="form-container">
+    <form th:action="@{/admin/saveUser}" th:object="${user}" method="post">
+
+        <!-- Скрытое поле для ID -->
+        <input type="hidden" th:field="*{id}"/>
+
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" th:field="*{name}" placeholder="Your name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="surname">Surname:</label>
+            <input type="text" id="surname" th:field="*{surname}" placeholder="Your surname">
+        </div>
+
+        <div class="form-group">
+            <label for="age">Age:</label>
+            <input type="number" id="age" th:field="*{age}" min="18" max="100" placeholder="Your age" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" th:field="*{email}" placeholder="Your E-mail" required>
+        </div>
+
+        <div class="form-group">
+            <label for="phoneNumber">Phone number:</label>
+            <input type="tel" id="phoneNumber" th:field="*{phoneNumber}" placeholder="Your phone number">
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" th:field="*{password}" placeholder="Password">
+            <small th:if="${user.id != 0}">Leave empty to keep current password</small>
+        </div>
+
+        <div class="form-group">
+            <label>Roles:</label>
+            <div th:each="role : ${allRoles}" class="checkbox-group">
+                <input type="checkbox"
+                       th:name="roles"
+                       th:value="${role.role}"
+                       th:checked="${#lists.contains(user.roles, role)}"/>
+                <label th:text="${role.role}"></label>
+            </div>
+        </div>
+
+        <div class="button-container">
+            <button type="submit" class="button">Save User</button>
+            <a class="button button-cancel" href="/admin">Cancel</a>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

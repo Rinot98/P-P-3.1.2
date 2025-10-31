@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+    <style type="text/css">
+        body {
+            background-image: url('/images/background.png');
+            background-size: cover; /* Заполняет весь экран */
+            background-repeat: no-repeat; /* Изображение не повторяется */
+            background-position: center; /* Центрирует изображение */
+            height: 100vh; /* Задает высоту body в 100% высоты экрана */
+            margin: 0; /* Убирает отступы по умолчанию */
+            display: flex; /* Используем flexbox для создания колонок */
+            flex-direction: column; /* Горизонтальное центрирование */
+            align-items: center; /* Вертикальное центрирование */
+        }
+
+        h1 {
+            color: #FFA500; /* Цвет заголовка */
+            text-align: center; /* Центрируем заголовок */
+            padding-top: 20px;
+        }
+
+        .container {
+            display: flex; /* Создаем флекс-контейнер для колонок */
+            width: 100%; /* Задаем ширину контейнера */
+        }
+
+        .column {
+            padding: 20px; /* Отступы внутри колонок */
+        }
+
+        .left-column {
+            width: 25%; /* Ширина левой и правой колонок */
+            background-color: rgba(255, 255, 255, 0.3); /* Полупрозрачный фон */
+            text-align: right; /* Центрирование текста */
+            padding-right: 5px;
+        }
+
+        .right-column {
+            width: 25%; /* Ширина левой и правой колонок */
+            background-color: rgba(255, 255, 255, 0.3); /* Полупрозрачный фон */
+            text-align: center; /* Центрирование текста */
+        }
+
+        .center-column {
+            width: 50%; /* Ширина центральной колонки */
+            background-color: rgba(255, 255, 255, 0.8); /* Непрозрачный фон */
+            border-radius: 10px; /* Закругленные углы */
+        }
+
+        .btn {
+            background-color: #FFA500; /* Цвет кнопки */
+            border: none; /* Убираем рамку */
+            color: white; /* Цвет текста на кнопке */
+            padding: 10px 20px; /* Отступы внутри кнопки */
+            font-size: 16px; /* Размер шрифта */
+            margin: 5px 0; /* Отступы сверху и снизу для кнопки */
+            cursor: pointer; /* Курсор при наведении */
+            border-radius: 5px; /* Закругленные углы кнопки */
+            transition: background-color 0.3s; /* Плавный переход цвета */
+        }
+
+        .btn-profile {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-logout {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn:hover {
+            background-color: #FF4500; /* Цвет кнопки при наведении */
+        }
+
+        .btn-profile:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+
+<body>
+<h1>Welcome to the Home Page</h1>
+<div class="container">
+    <div class="left-column">
+        <div sec:authorize="!isAuthenticated()">
+            <button class="btn" onclick="window.location.href='/login'">Login</button>
+            <br>
+            <button class="btn" onclick="window.location.href='/registration'">Register</button>
+        </div>
+        <div sec:authorize="isAuthenticated()">
+            <a th:href="@{'/user/profile'}">
+                <button class="btn btn-profile" type="button">Profile</button>
+            </a>
+            <br>
+            <a href="#" th:href="@{'/logout'}">
+                <button class="logout btn btn-logout" type="button">Logout</button>
+            </a>
+        </div>
+    </div>
+    <div class="center-column">
+        <h2 style="text-align: center">Main Content</h2>
+        <p>This is where the main content of your website will go.</p>
+    </div>
+    <div class="right-column">
+        <h2>Side Content</h2>
+        <p>This is optional side content.</p>
+    </div>
+</div>
+<footer style="position: fixed; bottom: 0; left: 0; right: 0; background-color: rgba(0, 0, 0, 0.7); color: white; padding: 20px; text-align: center;">
+    <div>
+        <p>&copy; 2025 MyCompany. All rights reserved.</p>
+        <p>
+            <a href="#" style="color: white; text-decoration: none; margin: 0 10px;">Terms of Service</a> |
+            <a href="#" style="color: white; text-decoration: none; margin: 0 10px;">Privacy Policy</a>
+        </p>
+        <p>Follow us on:
+            <a href="#" style="color: white; text-decoration: none; margin: 0 5px;">Facebook</a> |
+            <a href="#" style="color: white; text-decoration: none; margin: 0 5px;">Twitter</a> |
+            <a href="#" style="color: white; text-decoration: none; margin: 0 5px;">Instagram</a>
+        </p>
+    </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+    <style type="text/css">
+        body {
+            background-image: url('/images/background.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .error-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            margin: 20px;
+            border-left: 5px solid #ff6b35;
+        }
+
+        h1 {
+            color: #ff6b35;
+            font-size: 3em;
+            margin: 0 0 10px 0;
+        }
+
+        h2 {
+            color: #333;
+            margin: 0 0 20px 0;
+            font-size: 1.5em;
+        }
+
+        .error-message {
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .error-details {
+            background-color: rgba(255, 107, 53, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: left;
+            border-left: 4px solid #ff6b35;
+        }
+
+        .error-details summary {
+            font-weight: bold;
+            cursor: pointer;
+            color: #ff6b35;
+            margin-bottom: 10px;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .btn {
+            background-color: #FFA500;
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-home {
+            background-color: #007bff;
+        }
+
+        .btn-back {
+            background-color: #6c757d;
+        }
+
+        .btn-support {
+            background-color: #28a745;
+        }
+
+        .btn:hover {
+            background-color: #FF4500;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-home:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-back:hover {
+            background-color: #5a6268;
+        }
+
+        .btn-support:hover {
+            background-color: #218838;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .error-container {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .btn-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 200px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="error-container">
+    <h1>Oops! Something went wrong</h1>
+    <h2>We encountered an unexpected error</h2>
+
+    <div class="error-message">
+        <p>Don't worry, our team has been notified, and we're working to fix the issue.</p>
+        <p>Please try again later or contact support if the problem persists.</p>
+    </div>
+
+    <div class="error-details">
+        <summary>Technical Details (for support)</summary>
+        <div th:if="${timestamp}" style="font-size: 0.9em;">
+            <p><strong>Timestamp:</strong> <span th:text="${timestamp}"></span></p>
+            <p th:if="${status}"><strong>Status:</strong> <span th:text="${status}"></span></p>
+            <p th:if="${error}"><strong>Error:</strong> <span th:text="${error}"></span></p>
+            <p th:if="${path}"><strong>Path:</strong> <span th:text="${path}"></span></p>
+        </div>
+    </div>
+
+    <div class="btn-container">
+        <a th:href="@{'/'}" class="btn btn-home">
+            Go to Homepage
+        </a>
+
+        <button onclick="history.back()" class="btn btn-back">
+            Go Back
+        </button>
+
+        <a href="mailto:support@company.com" class="btn btn-support">
+            Contact Support
+        </a>
+    </div>
+</div>
+
+<footer>
+    <div>
+        <p>&copy; 2025 MyCompany. All rights reserved.</p>
+        <p>
+            <a href="#">Terms of Service</a> |
+            <a href="#">Privacy Policy</a> |
+            <a href="#">Contact Support</a>
+        </p>
+    </div>
+</footer>
+</body>
+</html>
