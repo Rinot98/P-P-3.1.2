@@ -1,4 +1,4 @@
-package ru.kata.spring.boot_security.demo.configs;
+package ru.kata.spring.boot_security.demo.config;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
@@ -14,7 +14,6 @@ import java.util.Date;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    // Обработка исключений доступа
     @ExceptionHandler(AccessDeniedException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public String handleAccessDenied(AccessDeniedException ex, Model model) {
@@ -22,25 +21,21 @@ public class GlobalExceptionHandler {
         return "403";
     }
 
-    // Обработка всех исключений
     @ExceptionHandler(Exception.class)
     public String handleAllExceptions(Exception ex, Model model, HttpServletRequest request) {
         model.addAttribute("timestamp", new Date());
         model.addAttribute("error", ex.getMessage());
         model.addAttribute("path", request.getRequestURI());
         model.addAttribute("status", 500);
-
         return "error";
     }
 
-    // Обработка 404 ошибок
     @ExceptionHandler(NoHandlerFoundException.class)
     public String handleNotFound(Exception ex, Model model, HttpServletRequest request) {
         model.addAttribute("timestamp", new Date());
         model.addAttribute("error", "Page not found" + ex.getMessage());
         model.addAttribute("path", request.getRequestURI());
         model.addAttribute("status", 404);
-
         return "error";
     }
 }

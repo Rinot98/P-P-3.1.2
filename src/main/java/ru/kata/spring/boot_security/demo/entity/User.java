@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
-public class MyUser implements UserDetails {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,11 +53,11 @@ public class MyUser implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    public MyUser() {
+    public User() {
     }
 
-    public MyUser(String name, String surname, int age, String email,
-                  String phoneNumber, String password) {
+    public User(String name, String surname, int age, String email,
+                String phoneNumber, String password) {
         this.name = name;
         this.surname = surname;
         this.age = age;

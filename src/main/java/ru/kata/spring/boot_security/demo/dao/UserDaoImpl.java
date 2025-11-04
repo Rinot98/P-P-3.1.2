@@ -8,7 +8,7 @@ import javax.persistence.TypedQuery;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 
-import ru.kata.spring.boot_security.demo.entity.MyUser;
+import ru.kata.spring.boot_security.demo.entity.User;
 
 import java.util.List;
 
@@ -19,44 +19,44 @@ public class UserDaoImpl implements UserDao {
     private EntityManager em;
 
     @Override
-    public List<MyUser> getAllUsers() {
-        return em.createQuery("SELECT u FROM MyUser u", MyUser.class)
+    public List<User> getAllUsers() {
+        return em.createQuery("SELECT u FROM User u", User.class)
                 .getResultList();
     }
 
     @Override
-    public void saveUser(MyUser myUser) {
-        if (myUser.getId() != 0) {
-            em.merge(myUser);
-        } else {
-            em.persist(myUser);
-        }
+    public void saveUser(User user) {
+        em.persist(user);
     }
 
     @Override
-    public MyUser getUserById(int id) {
-        return em.find(MyUser.class, id);
+    public User getUserById(int id) {
+        return em.find(User.class, id);
     }
 
     @Override
-    public MyUser getUserByName(String name) {
+    public User getUserByName(String name) {
 
-        TypedQuery<MyUser> query = em.createQuery("SELECT u FROM MyUser u " +
-                "WHERE u.name = :username", MyUser.class);
+        TypedQuery<User> query = em.createQuery("SELECT u FROM User u " +
+                "WHERE u.name = :username", User.class);
         query.setParameter("username", name);
         return query.getSingleResult();
     }
 
     @Override
     public void deleteUser(int id) {
-        MyUser myUser = em.find(MyUser.class, id);
-        em.remove(myUser);
+        em.remove(getUserById(id));
     }
 
     @Override
-    public MyUser getUserByLogin(String login) {
+    public void updateUser(User updatedUser) {
+        em.merge(updatedUser);
+    }
+
+    @Override
+    public User getUserByLogin(String login) {
         try {
-            return em.createQuery("SELECT u FROM MyUser u WHERE u.email = :login", MyUser.class)
+            return em.createQuery("SELECT u FROM User u WHERE u.email = :login", User.class)
                     .setParameter("login", login)
                     .getSingleResult();
         } catch (NoResultException e) {

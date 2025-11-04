@@ -1,11 +1,13 @@
 package ru.kata.spring.boot_security.demo.dao;
 
 import org.springframework.stereotype.Repository;
-import ru.kata.spring.boot_security.demo.entity.Role;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+
+import ru.kata.spring.boot_security.demo.entity.Role;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

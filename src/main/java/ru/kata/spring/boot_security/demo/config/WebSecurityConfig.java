@@ -1,4 +1,4 @@
-package ru.kata.spring.boot_security.demo.configs;
+package ru.kata.spring.boot_security.demo.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -7,7 +7,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -17,8 +16,8 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private final SuccessUserHandler successUserHandler;
 
+    private final SuccessUserHandler successUserHandler;
     private final UserService userService;
 
     public WebSecurityConfig(SuccessUserHandler successUserHandler,
@@ -32,8 +31,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/user/**", "/user").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/", "/login", "/registration", "/registration/**",
+                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/", "/login", "/registration/**",
                         "/css/**", "/js/**", "/images/**").permitAll()
                 .antMatchers("/error").permitAll()
                 .anyRequest().authenticated()
@@ -44,10 +43,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .logout()
-                .logoutUrl("/logout") // Обработчик запроса на выход
-                .invalidateHttpSession(true) // Инвалидируем сессию
-                .clearAuthentication(true) // Очищаем аутентификационные данные
-                .deleteCookies("JSESSIONID") // Удаляем куки JSESSIONID
+                .logoutUrl("/logout")
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
+                .deleteCookies("JSESSIONID")
                 .logoutSuccessUrl("/")
                 .and()
                 .exceptionHandling()
@@ -61,6 +60,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // Возвращаем объект шифрования
+        return new BCryptPasswordEncoder();
     }
 }

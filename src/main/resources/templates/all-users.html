@@ -144,7 +144,7 @@
         <a th:href="@{'/'}">
             <button class="btn btn-home" type="button">Home</button>
         </a>
-        <a th:href="@{'/user/profile'}">
+        <a th:href="@{'/admin/profile'}">
             <button class="btn btn-profile" type="button">Profile</button>
         </a>
         <a th:href="@{'/logout'}">
@@ -167,26 +167,25 @@
             <th>Operations</th>
         </tr>
         <tbody>
-        <tr th:each="myUser : ${users}">
+        <tr th:each="user : ${users}">
             <td>
-                <a th:href="@{/user/{id}(id=${myUser.id})}" th:text="${myUser.name}">Name</a>
+                <a th:href="@{/admin/user/{id}(id=${user.id})}" th:text="${user.name}">Name</a>
             </td>
-            <td th:text="${myUser.surname}">Surname</td>
-            <td th:text="${myUser.age}">Age</td>
-            <td th:text="${myUser.email}">Email</td>
-            <td th:text="${myUser.phoneNumber}">phone Number</td>
+            <td th:text="${user.surname}">Surname</td>
+            <td th:text="${user.age}">Age</td>
+            <td th:text="${user.email}">Email</td>
+            <td th:text="${user.phoneNumber}">phone Number</td>
             <td>
-                <span th:each="role : ${myUser.roles}" class="role-badge" th:text="${role.role}">Role</span>
+                <span th:each="role : ${user.roles}" class="role-badge" th:text="${role.role}">Role</span>
             </td>
-            <td th:text="${myUser.isEnabled()}">Status</td>
-            <td th:text="${myUser.password}">Password</td>
+            <td th:text="${user.isEnabled()}">Status</td>
+            <td th:text="${user.password}">Password</td>
             <td>
-
-                <a th:href="@{/admin/updateInfo(userId=${myUser.id})}">
+                <a th:href="@{/admin/edit/{id}(id=${user.id})}">
                     <button class="btn btn-update" type="button">Update</button>
                 </a>
-                <form th:action="@{/admin/deleteUser}" method="post" style="display: inline;">
-                    <input type="hidden" name="userId" th:value="${myUser.id}">
+                <form th:action="@{/admin/delete/{id}(id=${user.id})}" method="post" style="display: inline;">
+                    <input type="hidden" name="_method" value="DELETE"/>
                     <button class="btn btn-delete" type="submit"
                             onclick="return confirm('Are you sure you want to delete this user?')">
                         Delete
@@ -200,7 +199,7 @@
 
     </table>
     <br>
-    <input class="btn btn-add" type="button" value="Add" onclick="window.location.href = 'admin/addNewUser'"/>
+    <input class="btn btn-add" type="button" value="Add" onclick="window.location.href = 'admin/add'"/>
 </div>
 </body>
 </html>

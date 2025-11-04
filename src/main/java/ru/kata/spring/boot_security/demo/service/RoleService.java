@@ -11,9 +11,7 @@ public interface RoleService {
 
     Role getRoleByName(String roleName);
 
-    void saveRole(Set<Role> roles);
-
-    void saveRole(String roleName);
-
     void deleteRole(int id);
+
+    public Role getOrCreateRole(String roleName);
 }

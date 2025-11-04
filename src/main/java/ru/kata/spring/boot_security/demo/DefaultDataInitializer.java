@@ -5,7 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import ru.kata.spring.boot_security.demo.entity.MyUser;
+import ru.kata.spring.boot_security.demo.entity.User;
 import ru.kata.spring.boot_security.demo.entity.Role;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
@@ -43,13 +43,13 @@ public class DefaultDataInitializer implements CommandLineRunner {
 
     private void createRoleIfNotFound(String roleName) {
         if (roleService.getRoleByName(roleName) == null) {
-            roleService.saveRole(roleName);
+            roleService.getOrCreateRole(roleName);
         }
     }
 
     private void createUserIfNotFound(String email, String password, String name, String surname, int age, String phone, Set<String> roleNames) {
         try {
-            MyUser existingUser = userService.getUserByLogin(email);
+            User existingUser = userService.getUserByLogin(email);
             if (existingUser == null) {
                 createNewUser(email, password, name, surname, age, phone, roleNames);
             }
@@ -59,7 +59,7 @@ public class DefaultDataInitializer implements CommandLineRunner {
     }
 
     private void createNewUser(String email, String password, String name, String surname, int age, String phone, Set<String> roleNames) {
-        MyUser user = new MyUser();
+        User user = new User();
         user.setName(name);
         user.setSurname(surname);
         user.setAge(age);

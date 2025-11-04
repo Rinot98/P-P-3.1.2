@@ -116,13 +116,13 @@
     <h1 class="name">User Profile</h1>
 
     <div class="welcome-message">
-    <span th:if="${isOwnProfile and #authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+        <span th:if="${#authentication.name == user.email and #authorization.expression('hasRole(''ROLE_ADMIN'')')}">
         👑 Welcome, <strong th:text="${user.name}">Username</strong>! This is your administrator profile
     </span>
-        <span th:if="${isOwnProfile and #authorization.expression('hasRole(''ROLE_USER'')')}">
+        <span th:if="${#authentication.name == user.email and #authorization.expression('hasRole(''ROLE_USER'')')}">
         Hi, <strong th:text="${user.name}">Username</strong>, This is your profile, feel yourself at home!
     </span>
-        <span th:if="${not isOwnProfile}">
+        <span th:unless="${#authentication.name == user.email}">
         This is <strong th:text="${user.name}">Username</strong>'s profile!
     </span>
     </div>

@@ -2,61 +2,55 @@ package ru.kata.spring.boot_security.demo.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import ru.kata.spring.boot_security.demo.dao.RoleDao;
 import ru.kata.spring.boot_security.demo.entity.Role;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class RoleServiceImpl implements RoleService {
 
-    private final RoleDao roleDAO;
+    private final RoleDao roleDao;
 
-    public RoleServiceImpl(RoleDao roleDAO) {
-        this.roleDAO = roleDAO;
+    public RoleServiceImpl(RoleDao roleDao) {
+        this.roleDao = roleDao;
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Set<Role> getAllRoles() {
-        return roleDAO.getAllRoles();
+        return roleDao.getAllRoles();
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Role getRoleById(int id) {
-        return roleDAO.getRoleById(id);
+        return roleDao.getRoleById(id);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Role getRoleByName(String roleName) {
-        return roleDAO.getRoleByName(roleName);
+        return roleDao.getRoleByName(roleName);
     }
 
     @Override
-    @Transactional
-    public void saveRole(Set<Role> roles) {
-
-        Set<String> allRolesName = getAllRoles().stream()
-                .map(Role::getRole)
-                .collect(Collectors.toSet());
-
-        roles.stream()
-                .filter(role -> allRolesName.contains(role.getRole()))
-                .forEach(roleDAO::saveRole);
+    public Role getOrCreateRole(String roleName) {
+        Role existingRole = roleDao.getRoleByName(roleName);
+        if (existingRole != null) {
+            return existingRole;
+        } else {
+            Role newRole = new Role();
+            newRole.setRole(roleName);
+            roleDao.saveRole(newRole);
+            return newRole;
+        }
     }
 
     @Override
-    @Transactional
-    public void saveRole(String roleName) {
-        roleDAO.saveRole(new Role(roleName));
-    }
-
-    @Override
-    @Transactional
     public void deleteRole(int id) {
-        roleDAO.deleteRole(id);
+        roleDao.deleteRole(id);
     }
 }

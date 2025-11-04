@@ -85,9 +85,8 @@
 </h2>
 
 <div class="form-container">
-    <form th:action="@{/admin/saveUser}" th:object="${user}" method="post">
+    <form th:action="@{/admin/save}" th:object="${user}" method="post">
 
-        <!-- Скрытое поле для ID -->
         <input type="hidden" th:field="*{id}"/>
 
         <div class="form-group">

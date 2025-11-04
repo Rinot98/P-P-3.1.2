@@ -30,6 +30,24 @@
             width: 100%; /* Задаем ширину контейнера */
         }
 
+        .alert {
+            padding: 15px;
+            margin: 20px 0;
+            border: 1px solid transparent;
+            border-radius: 5px;
+        }
+
+        .alert-success {
+            color: #155724;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+
+        .alert-dismissible {
+            position: relative;
+            padding-right: 40px;
+        }
+
         .column {
             padding: 20px; /* Отступы внутри колонок */
         }
@@ -87,6 +105,10 @@
 
 <body>
 <h1>Welcome to the Home Page</h1>
+<div th:if="${successMessage}" class="alert alert-success alert-dismissible">
+    <span th:text="${successMessage}"></span>
+    <button type="button" class="close" onclick="this.parentElement.style.display='none'">×</button>
+</div>
 <div class="container">
     <div class="left-column">
         <div sec:authorize="!isAuthenticated()">
@@ -95,9 +117,16 @@
             <button class="btn" onclick="window.location.href='/registration'">Register</button>
         </div>
         <div sec:authorize="isAuthenticated()">
-            <a th:href="@{'/user/profile'}">
-                <button class="btn btn-profile" type="button">Profile</button>
-            </a>
+            <span th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                <a th:href="@{'/admin/profile'}">
+                    <button class="btn btn-profile" type="button">Profile</button>
+                </a>
+            </span>
+            <span th:unless="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                <a th:href="@{'/user'}">
+                    <button class="btn btn-profile" type="button">Profile</button>
+                </a>
+            </span>
             <br>
             <a href="#" th:href="@{'/logout'}">
                 <button class="logout btn btn-logout" type="button">Logout</button>
