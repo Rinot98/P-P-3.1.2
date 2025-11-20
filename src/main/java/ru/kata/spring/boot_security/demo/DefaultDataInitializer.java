@@ -34,11 +34,10 @@ public class DefaultDataInitializer implements CommandLineRunner {
     public void run(String... args) throws Exception {
         createRoleIfNotFound("ADMIN");
         createRoleIfNotFound("USER");
-        createRoleIfNotFound("MANAGER");
 
-        createUserIfNotFound("admin@admin.com", "admin", "Admin", "User", 30, "1234567890", Set.of("ADMIN", "MANAGER"));
+        createUserIfNotFound("admin@admin.com", "admin", "Admin", "User", 30, "1234567890", Set.of("ADMIN"));
         createUserIfNotFound("user@user.com", "user", "Regular", "User", 25, "0987654321", Set.of("USER"));
-        createUserIfNotFound("manager@manager.com", "manager", "Project", "Manager", 35, "5555555555", Set.of("MANAGER", "USER"));
+        createUserIfNotFound("manager@manager.com", "manager", "Project", "Manager", 35, "5555555555", Set.of("ADMIN", "USER"));
     }
 
     private void createRoleIfNotFound(String roleName) {

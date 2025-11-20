@@ -21,6 +21,6 @@ public class UserController {
     public String showMyProfile(Model model) {
         model.addAttribute("user", userService.getCurrentUserProfile());
         model.addAttribute("isOwnProfile", true);
-        return "profile";
+        return "user-page";
     }
 }

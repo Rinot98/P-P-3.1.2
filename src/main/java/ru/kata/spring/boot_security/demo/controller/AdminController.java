@@ -28,21 +28,21 @@ public class AdminController {
     @GetMapping
     public String showAllUsers(Model model) {
         model.addAttribute("users", userService.getAllUsers());
-        return "all-users";
+        return "admin-panel";
     }
 
     @GetMapping("/profile")
     public String showAdminProfile(Model model) {
         User admin = userService.getCurrentUserProfile();
         model.addAttribute("user", admin);
-        return "profile";
+        return "user-page";
     }
 
     @GetMapping("/user/{id}")
     public String showUserProfile(@PathVariable("id") int userId, Model model) {
         User user = userService.getUserById(userId);
         model.addAttribute("user", user);
-        return "profile";
+        return "user-page";
     }
 
     @GetMapping("/add")

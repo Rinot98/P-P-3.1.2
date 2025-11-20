@@ -13,5 +13,5 @@ public interface RoleService {
 
     void deleteRole(int id);
 
-    public Role getOrCreateRole(String roleName);
+    Role getOrCreateRole(String roleName);
 }
